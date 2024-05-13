@@ -28,7 +28,7 @@ func main() {
 	http.HandleFunc("/save-text", HandleScriptSaver) //Обработка формы для записи команды
 	http.HandleFunc("/upload-file", HandleFileSaver) //Обработка формы для записи команды
 	http.HandleFunc("/Command/Stop", HandleStopCommand) //Обработка формы для остановки команды
-    log.Fatal(http.ListenAndServe(":80", nil))
+    log.Fatal(http.ListenAndServe(":2020", nil))
 	
 }
 
@@ -100,6 +100,7 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 	type idToStop struct  {
 		Id string `json:id`
 	}
+
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
