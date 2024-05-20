@@ -82,16 +82,14 @@
         var url = window.location.href;
         console.log(url);
 
-        
-        var id = url.slice(30);
+        var id = url.slice(25);
         console.log(id); // Выводим ID для проверки
-
 
 // Добавляем обработчик события клика на кнопку stopbutton
         stopbutton.addEventListener('click', function() {
             // Сохраняем ID перед отправкой запроса
             var savedId = id;
-
+            console.log(savedId);
             // Отправляем запрос на сервер
             fetch('/Command/Stop', {
                 method: 'POST',
@@ -101,7 +99,6 @@
                 // Тело запроса теперь содержит ID
                 body: JSON.stringify({ id: savedId }),
             })
-           
         });
     </script>
  </html>
