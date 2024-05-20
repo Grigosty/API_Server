@@ -18,17 +18,20 @@ type Command struct{
 	ScriptResult string `json:"scriptResult"`
 }
 
+var idMap = make(map[int]string)
+
 var stopByUser = make(chan int, 100)
 
 func main() {
-	
+	fillMap()
 	http.HandleFunc("/Command/All", HandleFuncGet) //Получение списка всех команд
 	http.HandleFunc("/Command/Create/", HandleFuncPost) //Создание новой команды
 	http.HandleFunc("/Command/",HandleFuncGetId) //Получение одной команды
 	http.HandleFunc("/save-text", HandleScriptSaver) //Обработка формы для записи команды
 	http.HandleFunc("/upload-file", HandleFileSaver) //Обработка формы для записи команды
 	http.HandleFunc("/Command/Stop", HandleStopCommand) //Обработка формы для остановки команды
-    log.Fatal(http.ListenAndServe(":2020", nil))
+	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))
+    log.Fatal(http.ListenAndServe(":80", nil))
 	
 }
 
@@ -98,7 +101,7 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 
 	//Получение id команды для остановки
 	type idToStop struct  {
-		Id string `json:id`
+		Id string `json: "id"`
 	}
 
 	if r.Method != "POST" {
@@ -112,13 +115,16 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 	return
 	}
 	stoppId,err:=strconv.Atoi(id.Id)
-	if err!=nil{
-		fmt.Println("Пользователь остановил уже остановленную программу:",err)
+	if idMap[stoppId]=="work"{
+		if err!=nil{
+			fmt.Println("Пользователь остановил уже остановленную программу:",err)
+		}
+		fmt.Println("Получен id остановки:",stoppId)
+		func(){
+			stopByUser<-stoppId
+		}()
 	}
-	fmt.Println("Получен id остановки:",stoppId)
-	func(){
-		stopByUser<-stoppId
-	}()
+	
 }
 
 
