@@ -11,32 +11,90 @@
 			  justify-content: center;
 			  align-items: center;
 			}
+
 			form {
 			  width: 300px;
 			  padding: 20px; 
 			  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 			}
 
-			.container2{
+			.container1{
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			}
 
+			.container2{
+			display: flex;
             position: absolute;
             bottom: 180px;
             background-color: grey;
+			
             }
+
+			button{
+			width: 250px;
+            height: 42px;
+            padding-left: 15px;
+            border-radius: 42px;
+            border: 2px solid #324b4e;
+            background: #F9F0DA;
+            outline: none;
+            position: relative;
+            transition: .3s linear;
+			}
+
+			.scriptIdButton {
+            width: 42px;
+            height: 42px;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 2px;
+            right: 0;
+            }
+
+			* {box-sizing: border-box;}
+            form {
+            width: auto;
+            float: right;
+            margin-right: 0px;
+            }
+            input {
+            width: 250px;
+            height: 42px;
+            padding-left: 15px;
+            border-radius: 42px;
+            border: 2px solid #324b4e;
+            background: #F9F0DA;
+            outline: none;
+            position: relative;
+            transition: .3s linear;
+            }
+            input:focus {
+            width: 300px;
+            }
+
+			.container3{
+			display: flex;
+			flex-direction: column;
+			}
 			
 		  </style>
 	</head>
 	<body style="background-color: #00284D">
-		<button id="loadFromFileButton">Загрузить скрипт из файла</button>
-		<button id="loadFromTextButton">Ввести свой скрипт</button>
-		<button id="allCommandsList">Все команды</button>
 
-		<div class='container2' >
-		<div id="insideFlex" style="display: flex; flex-direction: column;">
-		<label style=" font-size: 14px";>id скрипта вы можете найти через список всех команд</label>
-		<input type="text" id="scriptId" placeholder="Введите id скрипта">
-		<button id = "scriptIdButton">Перейти к скрипту</button>
+		<div class="container1">
+			<button id="loadFromFileButton">Загрузить скрипт из файла</button>
+			<button id="loadFromTextButton">Ввести свой скрипт</button>
+			<button id="allCommandsList">Все команды</button>
 		</div>
+
+		
+
+		<div class='container2'  >
+		<input type="text" id="scriptId" placeholder="Введите id скрипта">
+		<button id = "scriptIdButton" class="scriptIdButton"><img src="/templates/icon.png" alt="Button Image" width="20" height="20"></button>
 		</div>
 		
 		<form id="textUploadForm"  style="display:none;">
@@ -48,11 +106,11 @@
 		</form>
 		
 		<form id="fileUploadForm"  method="post" enctype = "multipart/form-data" style="display:none;" >
-			<div id="contayner1" style="display:flex; flex-direction: column; justify-content: center">
-    		<input type="file" id="loadFileInput" name="loadFileInput" accept=".sh" style="color: #009FE3">
+			<div class='container3'>
+    		<input type="file" id="loadFileInput" name="loadFileInput" accept=".sh" style="color: #009FE3;">
     		<button type="submit" id="executeFileButton" disabled>Выполнить</button>
 			<button type="button" id="backButtonFileForm">Назад</button>
-			<div>
+			</div>
 		</form>
 
 		
@@ -95,6 +153,7 @@
 				loadFromTextButton.style.display='none';
 				allCommandsListButton.style.display='none';	
 				textUploadForm.style.display='block';
+
 			})
 
 			allCommandsListButton.addEventListener('click', function() {
@@ -135,12 +194,12 @@
 				var formData = new FormData(event.target.form);
 				var xhr = new XMLHttpRequest();
 				xhr.open('POST', '/upload-file', true);
+				
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.status == 200) {
-						// После успешной загрузки файла перезагружаем страницу на URL /Command/Create/
-						
 					}
 				};
+				console.log("Скрипт успешно отправлен");
 				xhr.send(formData);
 			});
 			
