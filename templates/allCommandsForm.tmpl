@@ -52,16 +52,60 @@
             background-color: grey;
             }
 
+            * {box-sizing: border-box;}
+            form {
+            width: auto;
+            float: right;
+            margin-right: 30px;
+            }
+            input {
+            width: 250px;
+            height: 42px;
+            padding-left: 15px;
+            border-radius: 42px;
+            border: 2px solid #324b4e;
+            background: #F9F0DA;
+            outline: none;
+            position: relative;
+            transition: .3s linear;
+            }
+            input:focus {
+            width: 300px;
+            }
+            .scriptIdButton {
+            width: 42px;
+            height: 42px;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 2px;
+            right: 0;
+            }
+            .createButton{
+            width: 250px;
+            height: 42px;
+            padding-left: 15px;
+            border-radius: 42px;
+            border: 2px solid #324b4e;
+            background: #F9F0DA;
+            outline: none;
+            position: relative;
+            transition: .3s linear;
+            }
+        
+
 		  </style>
  </head>
  <body>
-  <div class='container' >
-  <button id = "createButton">Перейти к созданию скрипта</button>
+  <div class='container'>
+  <button id = "createButton" class="createButton">Перейти к созданию скрипта</button>
   </div>
-  <div class='container2' >
-  <input type="text" id="scriptId">
-  <button id = "scriptIdButton">Перейти к скрипту</button>
+
+  <div class='container2'  >
+  <input type="text" id="scriptId" placeholder="Введите id скрипта">
+  <button id = "scriptIdButton" class="scriptIdButton"><img src="/templates/icon.png" alt="Button Image" width="20" height="20"></button>
   </div>
+
   <ul style="background-color: grey;">
   {{ range . }}
    <li><p><mark>ID</mark>: {{ .Id }},<br>
