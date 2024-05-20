@@ -54,11 +54,36 @@ func createNewId () int{
 	return currentId
 }
 
+//Заполнение среза map значениями id на текущий момент
+func fillMap(){
+	db, err := sql.Open("postgres", connStr)
+	if err!=nil{
+		fmt.Println("Ошибка при подключении к БД из createNewId():",err)
+	}
+	defer db.Close()
+	var currentId int
+	rows, err := db.Query("select max(id) from scripts")
+    if err != nil {
+        panic(err)
+    }
+    defer rows.Close()
+
+	for rows.Next(){
+		err = rows.Scan(&currentId)
+		if err!=nil{
+			currentId=0
+		} 
+	}
+	for i:=1;i<=currentId;i++{
+		idMap[i]="Over"
+	}
+}
+
 //Обработка скрипта в форме текста
 func postScriptsFromText(w http.ResponseWriter, r  *http.Request, done chan bool, stopByUser chan int){
 
 	var currentId = createNewId()
-
+	idMap[currentId]="work"
 	//блок 1 - получение текста скрипта, сохранение текста в файл
 	
 	type TextContext struct {
@@ -117,6 +142,7 @@ func postScriptsFromText(w http.ResponseWriter, r  *http.Request, done chan bool
 			select{
 				case checkId:=<-stopByUser:
 					if checkId==currentId{
+						idMap[currentId]="over"
 						fmt.Println("Получен id остановки:",checkId)
 						fmt.Println("Выполнение скрипта остановлено пользователем")
 						return
@@ -139,7 +165,7 @@ func postScriptsFromText(w http.ResponseWriter, r  *http.Request, done chan bool
 	if err != nil {
 		return
 	}
-
+	idMap[currentId]="over"
 	// ждем поступления true
 	fmt.Println("Выполнение скрипта завершилось штатно")
 	done <- true
@@ -148,7 +174,7 @@ func postScriptsFromText(w http.ResponseWriter, r  *http.Request, done chan bool
 func postScriptsFromFile(w http.ResponseWriter, r *http.Request, done chan bool){
 
 	var currentId = createNewId()
-	
+	idMap[currentId]="work"
 	// Получение файла из формы
 	file, _, err := r.FormFile("loadFileInput")
 	if err != nil {
@@ -211,6 +237,7 @@ func postScriptsFromFile(w http.ResponseWriter, r *http.Request, done chan bool)
 			select{
 			case checkId:=<-stopByUser:
 				if checkId==currentId{
+					idMap[currentId]="over"
 					fmt.Println("recived StopId:",checkId)
 					fmt.Println("Выполнение скрипта остановлено пользователем")
 					return
@@ -233,6 +260,7 @@ func postScriptsFromFile(w http.ResponseWriter, r *http.Request, done chan bool)
 	if err != nil {
 		return
 	}
+	idMap[currentId]="over"
 	fmt.Println("Выполнение скрипта ",currentId," завершилось штатно")
 	done <- true	 
 }
