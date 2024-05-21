@@ -1,4 +1,5 @@
 Руководство по запуску и использованию:
+LINUX
 1. Открыть терминал Linux-системы
 2. Если у вас не установлен PostgreSQL и Git выполнить:
    2.1. sudo apt-get install postgresql
