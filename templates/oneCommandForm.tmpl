@@ -45,28 +45,41 @@
             }
 
             .container{
-
+            display: flex;
+            flex-direction: column;
             position: absolute;
-            left: 70px;
-            background-color: grey;
+            left: 190px;
+            
             }
+
+            button{
+			width: 250px;
+            height: 42px;
+            padding-left: 15px;
+            border-radius: 42px;
+            border: 2px solid #324b4e;
+            background: #F9F0DA;
+            outline: none;
+            position: relative;
+            transition: .3s linear;
+			}
 
 		  </style>
  </head>
  <body>
-  <div class='container' >
-  <button id = "createButton">Перейти к созданию команды</button>
-  <button id="allCommandsList">Все команды</button>
-  </div>
-  <ul style="background-color: grey;">
-   <li><p><mark>ID</mark>: {{ .Id }},<br>
-   Script: {{ .Script }},<br>
-   ScriptResult: {{.ScriptResult}}</p></li>
-   <li><button id="stopbutton">Остановить команду</button></li>
-  </ul>
+    <div class='container' >
+        <button id = "createButton">Перейти к созданию команды</button>
+        <button id="allCommandsList">Все команды</button>
+    </div>
+    <ul style="background-color: grey;">
+        <li><p><mark>ID</mark>: {{ .Id }},<br>
+        Script: {{ .Script }},<br>
+        ScriptResult: {{.ScriptResult}}</p></li>
+        <li><button id="stopbutton">Остановить команду</button></li>
+    </ul>
  </body>
- <script>
 
+    <script>
         var stopButton = document.getElementById('stopbutton');
         // Добавляем обработчик события клика на кнопку
         document.getElementById('createButton').addEventListener('click', function() {
@@ -85,7 +98,7 @@
         var id = url.slice(25);
         console.log(id); // Выводим ID для проверки
 
-// Добавляем обработчик события клика на кнопку stopbutton
+        // Добавляем обработчик события клика на кнопку stopbutton
         stopbutton.addEventListener('click', function() {
             // Сохраняем ID перед отправкой запроса
             var savedId = id;
@@ -101,4 +114,5 @@
             })
         });
     </script>
+
  </html>

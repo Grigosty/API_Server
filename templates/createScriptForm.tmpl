@@ -27,9 +27,7 @@
 			.container2{
 			display: flex;
             position: absolute;
-            bottom: 180px;
-            background-color: grey;
-			
+            left: 180px;
             }
 
 			button{
@@ -187,6 +185,7 @@
 				};
 				xhr.send(JSON.stringify({text: textInput}));
 				}
+				
 			});
 
 			executeFileButton.addEventListener('click', function(event) {
@@ -209,6 +208,8 @@
 				loadFromFileButton.style.display='block';
 				loadFromTextButton.style.display='block';
 				allCommandsListButton.style.display='block';
+				var textInput = document.getElementById('areaOnForm');
+				textInput.value="";
 			})
 
 			backButtonFileForm.addEventListener('click', function(){

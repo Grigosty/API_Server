@@ -31,7 +31,7 @@ func main() {
 	http.HandleFunc("/upload-file", HandleFileSaver) //Обработка формы для записи команды
 	http.HandleFunc("/Command/Stop", HandleStopCommand) //Обработка формы для остановки команды
 	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))//обработчик нижнего уровня для использования изображений
-    log.Fatal(http.ListenAndServe(":2020", nil))
+    log.Fatal(http.ListenAndServe(":80", nil))
 	
 }
 
