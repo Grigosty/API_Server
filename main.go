@@ -101,7 +101,7 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 
 	//Получение id команды для остановки
 	type idToStop struct  {
-		Id string `json: "id"`
+		IdToStop string `json: "id"`
 	}
 
 	if r.Method != "POST" {
@@ -114,7 +114,7 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 	return
 	}
-	stoppId,err:=strconv.Atoi(id.Id)
+	stoppId,err:=strconv.Atoi(id.IdToStop)
 	if idMap[stoppId]=="work"{
 		if err!=nil{
 			fmt.Println("Пользователь остановил уже остановленную программу:",err)
