@@ -30,7 +30,7 @@ func main() {
 	http.HandleFunc("/save-text", HandleScriptSaver) //Обработка формы для записи команды
 	http.HandleFunc("/upload-file", HandleFileSaver) //Обработка формы для записи команды
 	http.HandleFunc("/Command/Stop", HandleStopCommand) //Обработка формы для остановки команды
-	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))
+	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))//обработчик нижнего уровня для использования изображений
     log.Fatal(http.ListenAndServe(":80", nil))
 	
 }
@@ -84,14 +84,14 @@ func HandleFuncPost(w http.ResponseWriter, r *http.Request){
 
 func HandleScriptSaver(w http.ResponseWriter, r  * http.Request) {
 	done:=make(chan bool)
-	go postScriptsFromText(w,r,done,stopByUser)
+	go postScriptsFromText(r,done,stopByUser)
 	<-done
 	w.WriteHeader(http.StatusOK)
 }
 
 func HandleFileSaver(w http.ResponseWriter, r  * http.Request){
 	done:=make(chan bool)
-	go postScriptsFromFile(w,r,done)
+	go postScriptsFromFile(r,done)
 	<-done	
 	http.Redirect(w, r, "/Command/Create/", http.StatusTemporaryRedirect)
 	w.WriteHeader(http.StatusOK)	
