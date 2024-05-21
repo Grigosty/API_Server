@@ -17,8 +17,8 @@ import (
 var connStr = "user=postgres password=password dbname=test sslmode=disable"
 var mu sync.Mutex
 
-//функция создает для нового скрипта запись в бд и передает id записи воркеру
-func createNewId () int{
+//Создание для нового скрипта записи в бд и передача id записи воркеру
+func createNewId() int{
 
 	var currentId int
 
@@ -171,6 +171,7 @@ func postScriptsFromText(r  *http.Request, done chan bool, stopByUser chan int){
 	done <- true
 }
 
+//Обработка скрипта в форме файла
 func postScriptsFromFile(r *http.Request, done chan bool){
 
 	var currentId = createNewId()
@@ -300,9 +301,6 @@ func getScripts()[]Command{
 	}
 	return commands
 }
-
-
-
 
 func getOneScript(w http.ResponseWriter,r *http.Request) Command{
 	db, err := sql.Open("postgres", connStr)
