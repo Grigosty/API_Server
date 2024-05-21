@@ -80,7 +80,7 @@ func fillMap(){
 }
 
 //Обработка скрипта в форме текста
-func postScriptsFromText(w http.ResponseWriter, r  *http.Request, done chan bool, stopByUser chan int){
+func postScriptsFromText(r  *http.Request, done chan bool, stopByUser chan int){
 
 	var currentId = createNewId()
 	idMap[currentId]="work"
@@ -171,14 +171,13 @@ func postScriptsFromText(w http.ResponseWriter, r  *http.Request, done chan bool
 	done <- true
 }
 
-func postScriptsFromFile(w http.ResponseWriter, r *http.Request, done chan bool){
+func postScriptsFromFile(r *http.Request, done chan bool){
 
 	var currentId = createNewId()
 	idMap[currentId]="work"
 	// Получение файла из формы
 	file, _, err := r.FormFile("loadFileInput")
 	if err != nil {
-		
 		return
 	}
 	defer file.Close()
