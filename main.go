@@ -30,9 +30,9 @@ func main() {
 	http.HandleFunc("/save-text", HandleScriptSaver) //Обработка формы для записи команды
 	http.HandleFunc("/upload-file", HandleFileSaver) //Обработка формы для записи команды
 	http.HandleFunc("/Command/Stop", HandleStopCommand) //Обработка формы для остановки команды
-	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))//обработчик нижнего уровня для использования изображений
+	//обработчик нижнего уровня для использования изображений
+	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))
     log.Fatal(http.ListenAndServe(":80", nil))
-	
 }
 
 //обработчики верхнего уровня
@@ -101,7 +101,7 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 
 	//Получение id команды для остановки
 	type idToStop struct  {
-		IdToStop string `json: "id"`
+		IdToStop string `json:"id"`
 	}
 
 	if r.Method != "POST" {
@@ -110,11 +110,14 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 	}
 
 	var id idToStop
+	
 	if err := json.NewDecoder(r.Body).Decode(&id); err != nil {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 	return
 	}
+
 	stoppId,err:=strconv.Atoi(id.IdToStop)
+	fmt.Println(stoppId)
 	if idMap[stoppId]=="work"{
 		if err!=nil{
 			fmt.Println("Пользователь остановил уже остановленную программу:",err)
@@ -124,7 +127,6 @@ func HandleStopCommand(w http.ResponseWriter, r  * http.Request){
 			stopByUser<-stoppId
 		}()
 	}
-	
 }
 
 
