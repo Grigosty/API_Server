@@ -108,7 +108,7 @@
 
   <ul style="background-color: grey;">
   {{ range . }}
-   <li><p><mark>ID</mark>: {{ .Id }},<br>
+   <li><p>ID: <button onclick="handleButtonClick(event)" style="background-color: yellow;">{{ .Id }}</button>,<br>
    Script: {{ .Script }},<br>
    ScriptResult: {{.ScriptResult}}</p></li>
   {{ end }}
@@ -125,6 +125,19 @@
                 window.location.href = '/Command/'+encodeURIComponent(id);
             }
         });
+
+        function handleButtonClick(event) {
+            // Получаем содержимое тега <li>, исключая саму кнопку
+            var allListText = event.target.parentNode.textContent;
+            var rightListText = '';
+            let firstSub = allListText.indexOf(" ");
+            let lastSub = allListText.indexOf(",");
+            for (i=firstSub+1;i<lastSub;i++){
+                rightListText+=allListText[i];
+            }
+            // Выводим текст в консоль
+            window.location.href = '/Command/'+encodeURIComponent(rightListText);
+        }
 
     </script>
  </html>
