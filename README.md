@@ -22,7 +22,7 @@ git clone <https://github.com/Grigosty/API_Server>
    4.3. Выполнить команду: ./startScript.sh
    4.4. Выполнить команду: \i полный_путь_к_файлу_в_репозитории/dumpdb.sql
 5. Запустить исполняемый файл сервера
-   ./main.go.exe
+   ./api_server.exe
 6. Перейти на localhost:2020/Command/All
    Список всех команд (пока там пусто)
 7. Перейти на localhost:2020/Command/Create
