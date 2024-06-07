@@ -32,7 +32,7 @@ func main() {
 	http.HandleFunc("/Command/Stop", HandleStopCommand) //Обработка формы для остановки команды
 	//обработчик нижнего уровня для использования изображений
 	http.Handle("/templates/", http.StripPrefix("/templates/", http.FileServer(http.Dir("templates"))))
-    log.Fatal(http.ListenAndServe(":80", nil))
+    log.Fatal(http.ListenAndServe(":2020", nil))
 }
 
 //обработчики верхнего уровня
